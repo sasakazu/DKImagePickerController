@@ -8,6 +8,8 @@ target 'DKImagePickerControllerTest' do
   # Pods for DKImagePickerControllerTest
 
   pod 'Firebase'
+  pod 'Firebase/Firestore'
+  pod 'Firebase/Storage'
   pod 'DKImagePickerController'
   
   target 'DKImagePickerControllerTestTests' do
