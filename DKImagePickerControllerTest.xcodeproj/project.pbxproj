@@ -18,6 +18,9 @@
 		731F88AD274654FD00AA098D /* DKImagePickerControllerTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731F88AC274654FD00AA098D /* DKImagePickerControllerTestUITests.swift */; };
 		731F88AF274654FD00AA098D /* DKImagePickerControllerTestUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731F88AE274654FD00AA098D /* DKImagePickerControllerTestUITestsLaunchTests.swift */; };
 		731F88BC2746588A00AA098D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 731F88BB2746588A00AA098D /* GoogleService-Info.plist */; };
+		731F88C32748FE4800AA098D /* topViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731F88C22748FE4800AA098D /* topViewController.swift */; };
+		731F88C62748FE8B00AA098D /* topCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731F88C42748FE8B00AA098D /* topCollectionViewCell.swift */; };
+		731F88C72748FE8B00AA098D /* topCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 731F88C52748FE8B00AA098D /* topCollectionViewCell.xib */; };
 		9933A2B6D26A2BE21F6CF646 /* Pods_DKImagePickerControllerTest_DKImagePickerControllerTestUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6380035E91DCC16C89BEEC84 /* Pods_DKImagePickerControllerTest_DKImagePickerControllerTestUITests.framework */; };
 		ADADFDF252C3CD97E3BC6604 /* Pods_DKImagePickerControllerTestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 206794E8247D76D565393754 /* Pods_DKImagePickerControllerTestTests.framework */; };
 /* End PBXBuildFile section */
@@ -58,6 +61,9 @@
 		731F88AC274654FD00AA098D /* DKImagePickerControllerTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKImagePickerControllerTestUITests.swift; sourceTree = "<group>"; };
 		731F88AE274654FD00AA098D /* DKImagePickerControllerTestUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKImagePickerControllerTestUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		731F88BB2746588A00AA098D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		731F88C22748FE4800AA098D /* topViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = topViewController.swift; sourceTree = "<group>"; };
+		731F88C42748FE8B00AA098D /* topCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = topCollectionViewCell.swift; sourceTree = "<group>"; };
+		731F88C52748FE8B00AA098D /* topCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = topCollectionViewCell.xib; sourceTree = "<group>"; };
 		8E843F384464CB3CC982C9AE /* Pods-DKImagePickerControllerTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DKImagePickerControllerTest.release.xcconfig"; path = "Target Support Files/Pods-DKImagePickerControllerTest/Pods-DKImagePickerControllerTest.release.xcconfig"; sourceTree = "<group>"; };
 		C14D887A088DF8665939B6CD /* Pods-DKImagePickerControllerTest-DKImagePickerControllerTestUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DKImagePickerControllerTest-DKImagePickerControllerTestUITests.debug.xcconfig"; path = "Target Support Files/Pods-DKImagePickerControllerTest-DKImagePickerControllerTestUITests/Pods-DKImagePickerControllerTest-DKImagePickerControllerTestUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D886FECE5109D92BA5878DC8 /* Pods-DKImagePickerControllerTest-DKImagePickerControllerTestUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DKImagePickerControllerTest-DKImagePickerControllerTestUITests.release.xcconfig"; path = "Target Support Files/Pods-DKImagePickerControllerTest-DKImagePickerControllerTestUITests/Pods-DKImagePickerControllerTest-DKImagePickerControllerTestUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -122,10 +128,13 @@
 				731F888D274654FB00AA098D /* SceneDelegate.swift */,
 				731F888F274654FB00AA098D /* ViewController.swift */,
 				731F8891274654FB00AA098D /* Main.storyboard */,
+				731F88C22748FE4800AA098D /* topViewController.swift */,
 				731F88BB2746588A00AA098D /* GoogleService-Info.plist */,
 				731F8894274654FC00AA098D /* Assets.xcassets */,
 				731F8896274654FC00AA098D /* LaunchScreen.storyboard */,
 				731F8899274654FC00AA098D /* Info.plist */,
+				731F88C42748FE8B00AA098D /* topCollectionViewCell.swift */,
+				731F88C52748FE8B00AA098D /* topCollectionViewCell.xib */,
 			);
 			path = DKImagePickerControllerTest;
 			sourceTree = "<group>";
@@ -283,6 +292,7 @@
 				731F8898274654FC00AA098D /* LaunchScreen.storyboard in Resources */,
 				731F8895274654FC00AA098D /* Assets.xcassets in Resources */,
 				731F8893274654FB00AA098D /* Main.storyboard in Resources */,
+				731F88C72748FE8B00AA098D /* topCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,8 +420,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				731F88C32748FE4800AA098D /* topViewController.swift in Sources */,
 				731F8890274654FB00AA098D /* ViewController.swift in Sources */,
 				731F888C274654FB00AA098D /* AppDelegate.swift in Sources */,
+				731F88C62748FE8B00AA098D /* topCollectionViewCell.swift in Sources */,
 				731F888E274654FB00AA098D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
