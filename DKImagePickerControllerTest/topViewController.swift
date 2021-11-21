@@ -8,12 +8,16 @@
 import UIKit
 import Firebase
 import DKImagePickerController
+import Photos
 
 class topViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource {
     
     var photos:[UIImage] = []
     var selectedCount = 0
-    
+    var globalIndex = 0
+    var test:[UIImage] = []
+    var userIconsave:[String] = []
+    var urls = [String]()
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -25,6 +29,7 @@ class topViewController: UIViewController,UICollectionViewDelegate, UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! topCollectionViewCell
         
         cell.imageview.image = photos[indexPath.row]
+//        test = photos[indexPath.row]
              
         return cell
     
@@ -116,12 +121,162 @@ class topViewController: UIViewController,UICollectionViewDelegate, UICollection
         
 //        img -> data -> url -> firestore, storage
         
+//        let user = Auth.auth().currentUser
         
+//        let image:UIImage! = photos[IndexPath]
         
-        
+//
+//        let date = NSDate()
+//        let currentTimeStampInSecond = UInt64(floor(date.timeIntervalSince1970 * 1000))
+//        let storageRef = Storage.storage().reference().child("images").child("user.uid.jpg")
+//
+//
+//              let metaData = StorageMetadata()
+//              metaData.contentType = "image/jpg"
+//
+//        let uploadData = photos[index].jpegData(compressionQuality: 1.0)
+//
+////        {
+//
+//        storageRef.putData(uploadData, metadata: metaData) { (metadata , error) in
+//                      if error != nil {
+//                          print("error: \(error?.localizedDescription)")
+//                      }
+//                      storageRef.downloadURL(completion: { (url, error) in
+//                          if error != nil {
+//                              print("error: \(error?.localizedDescription)")
+//                          }
+//                          print("url: \(url?.absoluteString)")
+//
+////                          self.userIconsave = url?.absoluteString
+//
+////                          print(self.userIconsave)
+//                          //        userに登録
+////
+////                                     userIconsave = storageRef
+//
+//                        let db = Firestore.firestore()
+//
+//                        db.collection("users").document("dddd").updateData([
+//                                        "userIcon": self.userIconsave
+//                            ]) { err in
+//                            if let err = err {
+//                                print("Error writing document: \(err)")
+//                                    } else {
+//                        print("Document successfully written!")
+//                                         }
+//                                     }
+//
+//                      })
+//                  }
+////              }
+//
+   
+        uploadImage(forIndex: globalIndex)
         
         
     }
+    
+    
+    func uploadImage(forIndex index: Int) {
+        
+        if index < photos.count {
+       
+        
+        let date = NSDate()
+        let currentTimeStampInSecond = UInt64(floor(date.timeIntervalSince1970 * 1000))
+      
+        let imageName = NSUUID().uuidString
+        let storageRef = Storage.storage().reference().child("images").child(imageName)
+
+        
+              let metaData = StorageMetadata()
+              metaData.contentType = "image/jpg"
+        
+        
+        
+        
+        guard let uploadData = photos[index].jpegData(compressionQuality: 1.0) else { return }
+        
+        
+        
+        storageRef.putData(uploadData, metadata: metaData) { (metadata , error) in
+                      if error != nil {
+                          print("error: \(error?.localizedDescription)")
+                      }
+                      storageRef.downloadURL(completion: { (url, error) in
+                          if error != nil {
+                              print("error: \(error?.localizedDescription)")
+                          }
+                          
+                          if let photoUrl = url?.absoluteString {
+                              
+//                            let ratio = self.arrayImages[index].size.height / self.arrayImages[index].size.width
+                              
+                              let url = photoUrl
+
+//                            self.ratios.append(ratio)
+                            self.urls.append(url)
+                              
+                              
+                              
+                              let db = Firestore.firestore()
+                                           
+                              db.collection("users").document("dddd").setData([
+                                "userIcon": self.urls
+                                  ]) { err in
+                                  if let err = err {
+                                      print("Error writing document: \(err)")
+                                          } else {
+                              print("Document successfully written!")
+                                               }
+                                           }
+                              
+                              
+                                }
+                          
+                            self.globalIndex += 1
+                            self.uploadImage(forIndex: self.globalIndex)
+                            return;
+                                      
+                      
+                          print("url: \(url?.absoluteString)")
+
+//                      })
+                          
+                          
+                          
+                          
+                        
+                          
+//                          self.userIconsave = url?.absoluteString
+                          
+//                          print(self.userIconsave)
+                          //        userに登録
+//
+//                                     userIconsave = storageRef
+                                     
+//                        let db = Firestore.firestore()
+//
+//                        db.collection("users").document("dddd").updateData([
+//                                        "userIcon": self.photou
+//                            ]) { err in
+//                            if let err = err {
+//                                print("Error writing document: \(err)")
+//                                    } else {
+//                        print("Document successfully written!")
+//                                         }
+//                                     }
+                             
+                      })
+                  }
+              }
+        
+//        }
+//}
+        
+    }
+    
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
