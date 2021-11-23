@@ -59,7 +59,7 @@ class topViewController: UIViewController,UICollectionViewDelegate, UICollection
     @IBAction func add(_ sender: Any) {
         
             let imagePicker = DKImagePickerController()
-            imagePicker.maxSelectableCount = 3
+            imagePicker.maxSelectableCount = 5
 
                //カメラモード、写真モードの選択
             imagePicker.sourceType = .photo
@@ -117,7 +117,63 @@ class topViewController: UIViewController,UICollectionViewDelegate, UICollection
 
     @IBAction func save(_ sender: Any) {
         
-        uploadImage(forIndex: globalIndex)
+            var count = 0
+            
+        for image in photos {
+
+            
+            let metaData = StorageMetadata()
+            metaData.contentType = "image/jpg"
+
+                 let imageName = NSUUID().uuidString // Unique string to reference image
+            let storageRef = Storage.storage().reference().child("posts").child(imageName)
+                
+            guard let data = image.jpegData(compressionQuality: 0.1) else {return}
+                 storageRef.putData(data, metadata: metaData) { (metadata, error) in
+                     if error != nil {
+//                         ProgressHUD.showError(error!.localizedDescription)
+                         return
+                     }
+                     storageRef.downloadURL(completion: { (url, error) in
+                         if let photoUrl = url?.absoluteString {
+//                             let ratio = image.size.height / image.size.width
+                             let url = photoUrl
+
+//                             self.ratios.append(ratio)
+                             self.urls.append(url)
+                             
+                             
+                             let db = Firestore.firestore()
+                                          
+                             db.collection("users").document("dddd").setData([
+                               "userIcon": self.urls
+                                 ]) { err in
+                                 if let err = err {
+                                     print("Error writing document: \(err)")
+                                         } else {
+                             print("Document successfully written!")
+                                              }
+                                          }
+                             
+                         }
+
+                         count += 1
+                         if count == self.photos.count {
+//                             SVProgressHUD.dismiss()
+                             /// All images have been uploaded successfully
+//                             print("self.rations.count \(self.ratios.count)")
+                             print("self.urls.count \(self.urls.count)")
+
+//                             ProgressHUD.showSuccess("終わり")
+                         }
+                     })
+                 }
+
+             }
+
+        
+        
+//        uploadImage(forIndex: globalIndex)
         
         
     }
@@ -125,65 +181,65 @@ class topViewController: UIViewController,UICollectionViewDelegate, UICollection
     
     func uploadImage(forIndex index: Int) {
         
-        if index < photos.count {
-       
-        
-        let date = NSDate()
-        let currentTimeStampInSecond = UInt64(floor(date.timeIntervalSince1970 * 1000))
-      
-        let imageName = NSUUID().uuidString
-        let storageRef = Storage.storage().reference().child("images").child(imageName)
-
-        
-              let metaData = StorageMetadata()
-              metaData.contentType = "image/jpg"
-        
-        guard let uploadData = photos[index].jpegData(compressionQuality: 1.0) else { return }
-        
-        
-        
-        storageRef.putData(uploadData, metadata: metaData) { (metadata , error) in
-                      if error != nil {
-                          print("error: \(error?.localizedDescription)")
-                      }
-                      storageRef.downloadURL(completion: { (url, error) in
-                          if error != nil {
-                              print("error: \(error?.localizedDescription)")
-                          }
-                          
-                          if let photoUrl = url?.absoluteString {
-                              
-                              let url = photoUrl
-
-                            self.urls.append(url)
-                              
-                              
-                              
-                              let db = Firestore.firestore()
-                                           
-                              db.collection("users").document("dddd").setData([
-                                "userIcon": self.urls
-                                  ]) { err in
-                                  if let err = err {
-                                      print("Error writing document: \(err)")
-                                          } else {
-                              print("Document successfully written!")
-                                               }
-                                           }
-                              
-                              
-                                }
-                          
-                            self.globalIndex += 1
-                            self.uploadImage(forIndex: self.globalIndex)
-                            return;
-                                      
-                      
-                          print("url: \(url?.absoluteString)")
-      
-                      })
-                  }
-              }
+//        if index < photos.count {
+//
+//
+//        let date = NSDate()
+//        let currentTimeStampInSecond = UInt64(floor(date.timeIntervalSince1970 * 1000))
+//
+//        let imageName = NSUUID().uuidString
+//        let storageRef = Storage.storage().reference().child("images").child(imageName)
+//
+//
+//              let metaData = StorageMetadata()
+//              metaData.contentType = "image/jpg"
+//
+//        guard let uploadData = photos[index].jpegData(compressionQuality: 1.0) else { return }
+//
+//
+//
+//        storageRef.putData(uploadData, metadata: metaData) { (metadata , error) in
+//                      if error != nil {
+//                          print("error: \(error?.localizedDescription)")
+//                      }
+//                      storageRef.downloadURL(completion: { (url, error) in
+//                          if error != nil {
+//                              print("error: \(error?.localizedDescription)")
+//                          }
+//
+//                          if let photoUrl = url?.absoluteString {
+//
+//                              let url = photoUrl
+//
+//                            self.urls.append(url)
+//
+//
+//
+//                              let db = Firestore.firestore()
+//
+//                              db.collection("users").document("dddd").setData([
+//                                "userIcon": self.urls
+//                                  ]) { err in
+//                                  if let err = err {
+//                                      print("Error writing document: \(err)")
+//                                          } else {
+//                              print("Document successfully written!")
+//                                               }
+//                                           }
+//
+//
+//                                }
+//
+//                            self.globalIndex += 1
+//                            self.uploadImage(forIndex: self.globalIndex)
+//                            return;
+//
+//
+//                          print("url: \(url?.absoluteString)")
+//
+//                      })
+//                  }
+//              }
 
     }
     
